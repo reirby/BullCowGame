@@ -18,6 +18,7 @@ void PlayGame();
 FText GetValidGuess();
 void PrintGameSummary();
 bool AskToPlayAgain();
+int32 SelectWordByLength();
 
 FBullCowGame BCGame; // instantiate a new game, which we reuse across the game
 
@@ -42,8 +43,9 @@ void PrintIntro()
 	std::cout << "\nWelcome to Bulls and Cows, a fun word game.\n\n";
 	std::cout << "\nA Bull means your guess contains a correct letter in the right place.";
 	std::cout << "\nA Cow means your guess contains a correct letter, but in the wrong place.\n\n";
+	SelectWordByLength();
 	std::cout << "Can you guess the " << BCGame.GetHiddenWordLength();
-	std::cout << " letter isogram I'm thinking of? \n ";
+	std::cout << " letter isogram I'm thinking of in " << BCGame.GetMaxTries() << " tries? \n ";
 	std::cout << std::endl;
 	return;
 }
@@ -52,6 +54,7 @@ void PrintIntro()
 void PlayGame()
 {
 	BCGame.Reset();
+	
 	int32 MaxTries = BCGame.GetMaxTries();
 	
 	// loop asking for guesses while the game is NOT won
@@ -71,8 +74,16 @@ void PlayGame()
 	return;
 }
 
+int32 SelectWordByLength()
+{
+	std::cout << "Please, select the hidden word length (3 - 6): ";
+	FText SelectedWordLength = "";
+	std::getline(std::cin, SelectedWordLength);
+	BCGame.SetHiddenWord(std::stoi(SelectedWordLength));
+	return 0;
+}
 
-// loop untill thw user gives a valid guess
+// loop untill the user gives a valid guess
 FText GetValidGuess()  
 {
 	FText Guess = "";
