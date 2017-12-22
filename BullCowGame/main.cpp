@@ -44,7 +44,7 @@ void PrintIntro()
 	std::cout << "\nA Bull means your guess contains a correct letter in the right place.";
 	std::cout << "\nA Cow means your guess contains a correct letter, but in the wrong place.\n\n";
 	SelectWordByLength();
-	std::cout << "Can you guess the " << BCGame.GetHiddenWordLength();
+	std::cout << "\nNice! Can you guess the " << BCGame.GetHiddenWordLength();
 	std::cout << " letter isogram I'm thinking of in " << BCGame.GetMaxTries() << " tries? \n ";
 	std::cout << std::endl;
 	return;
@@ -79,6 +79,13 @@ int32 SelectWordByLength()
 	std::cout << "Please, select the hidden word length (3 - 6): ";
 	FText SelectedWordLength = "";
 	std::getline(std::cin, SelectedWordLength);
+	//check if the input is correct
+	while (std::cin.fail() || std::cin.eof() || SelectedWordLength.find_first_not_of("3456") != FText::npos || SelectedWordLength.length() != 1) {
+		std::cout << "Please, enter a number from 3 to 6: ";
+		std::cin.clear();
+		std::getline(std::cin, SelectedWordLength);
+	}
+
 	BCGame.SetHiddenWord(std::stoi(SelectedWordLength));
 	return 0;
 }
@@ -92,7 +99,7 @@ FText GetValidGuess()
 		//get a guess from the player
 		int32 CurrentTry = BCGame.GetCurrentTry();
 		std::cout << "Try " << CurrentTry << " of " << BCGame.GetMaxTries();
-		std::cout << ". Be brave and enter your guess: ";
+		std::cout << ". Go ahead and enter your guess: ";
 		std::getline(std::cin, Guess);
 
 		Status = BCGame.CheckGuessValidity(Guess);
@@ -114,13 +121,15 @@ FText GetValidGuess()
 	return Guess;
 }
 
+
 bool AskToPlayAgain()
 {
-	std::cout << "Do you want to play again with the same hidden word (y/n)? ";
+	std::cout << "Do you want to play again (y/n)? ";
 	FText Response = "";
 	std::getline(std::cin, Response);	
 	return (Response[0] == 'y') || (Response[0] == 'Y');
 }
+
 
 void PrintGameSummary() {
 	if (BCGame.IsGameWon()) {
@@ -134,10 +143,10 @@ void PrintGameSummary() {
 
 void PrintArt() {
 	
-	std::cout << "	          //    )\\,/,/(_       " << std::endl;
+	std::cout << "	    / /               \\ \\   " << std::endl;
 	std::cout << "      `//-.|  (  ,\\)\\//\\)\\/_  ) |                    _\\/\\/\\/\\/\\/\\/\\/\\/\\/" << std::endl;
-	std::cout << "      //___\\   `\\\\\\/\\\\/\\/\\\\///'  /             /_                \\\\" << std::endl;
-	std::cout << "   ,-'~`-._ `- - -'_   `---`  _ \\`'-~-,_        ,-~''`/    _  `'''`  _'--'` _.-`~' - , " << std::endl;
+	std::cout << "      //___\\   `\\\\\\/\\\\/\\/\\\\///'  /                   /_                \\\\" << std::endl;
+	std::cout << "   ,-'~`-._ `- - -'_   `---`  _ \\`'-~-,_        ,-~''`/    _  `'''`  _'--'` _.-`~'  " << std::endl;
 	std::cout << "   \\       `-.  '_`.      .'_` \\ ,--~`/        \\`~' - , / '_'.     .'_'  . - ` / " << std::endl;
 	std::cout << "    `.__.-'`/   (-\\        /-) |-.__,'          ',__.-| (-\\        /-)   \\`'-.__.`" << std::endl;
 	std::cout << "      ||   |     \\O)  /^\\ (O/  |                     |  \\O) /^\\  (O/     |   ||" << std::endl;
