@@ -15,7 +15,7 @@ FString FBullCowGame::GetHiddenWord() { return MyHiddenWord; }
 bool FBullCowGame::IsGameWon() const { return bGameIsWon;}
 
 int32 FBullCowGame::GetMaxTries() const { 
-	TMap<int32, int32> WordLengthToMaxTries{ {3,4}, {4,7}, {5,10}, {6,16} };
+	TMap<int32, int32> WordLengthToMaxTries{ {3,10}, {4,13}, {5,16}, {6,20} };
 	return WordLengthToMaxTries[MyHiddenWord.length()];
 }
 
